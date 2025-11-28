@@ -13,9 +13,6 @@ public class DataInitializer implements CommandLineRunner {
     private SubjectRepository subjectRepository;
 
     @Autowired
-    private StudentRepository studentRepository;
-
-    @Autowired
     private QuestionRepository questionRepository;
 
     @Override
@@ -36,16 +33,8 @@ public class DataInitializer implements CommandLineRunner {
         programming.setDescription("Java, Python, Algorithms");
         subjectRepository.save(programming);
 
-        // Create Students
-        Student lance = new Student();
-        lance.setName("Lance");
-        lance.setEmail("lance@example.com");
-        studentRepository.save(lance);
-
-        Student henry = new Student();
-        henry.setName("Henry");
-        henry.setEmail("henry@example.com");
-        studentRepository.save(henry);
+        // Students will register through the registration system
+        // No test data for students - they must verify their email
 
         // Create Sample Questions for Math
         Question mathQ1 = new Question();

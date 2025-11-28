@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/exam")
@@ -64,7 +65,8 @@ public class ExamController {
     public String assignExam(@RequestParam Long examId,
                             @RequestParam Long studentId,
                             HttpSession session,
-                            Model model) {
+                            Model model,
+                            RedirectAttributes redirectAttributes) {
         if (!isTeacher(session)) {
             return "redirect:/login";
         }
@@ -83,9 +85,9 @@ public class ExamController {
             assignment.setStatus(ExamStatus.ASSIGNED);
             
             examAssignmentRepository.save(assignment);
-            model.addAttribute("message", "Exam assigned successfully to " + student.getName());
+            redirectAttributes.addFlashAttribute("success", "✓ Exam successfully assigned to " + student.getName() + "!");
         } else {
-            model.addAttribute("error", "Failed to assign exam");
+            redirectAttributes.addFlashAttribute("error", "Failed to assign exam. Please try again.");
         }
         
         return "redirect:/exam/generate";

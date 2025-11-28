@@ -4,6 +4,7 @@ import com.thesis.exam.util.TokenEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,8 +14,9 @@ public class EmailService {
     private JavaMailSender mailSender;
     
     /**
-     * Send verification email with token link
+     * Send verification email with token link (ASYNC - runs in background)
      */
+    @Async
     public void sendVerificationEmail(String toEmail, String userName, String verificationToken) {
         try {
             SimpleMailMessage message = new SimpleMailMessage();
@@ -45,8 +47,9 @@ public class EmailService {
     }
     
     /**
-     * Send password reset email
+     * Send password reset email (ASYNC - runs in background)
      */
+    @Async
     public void sendPasswordResetEmail(String toEmail, String userName, String resetToken) {
         try {
             SimpleMailMessage message = new SimpleMailMessage();
@@ -74,8 +77,9 @@ public class EmailService {
     }
     
     /**
-     * Send welcome email after verification
+     * Send welcome email after verification (ASYNC - runs in background)
      */
+    @Async
     public void sendWelcomeEmail(String toEmail, String userName, String role) {
         try {
             SimpleMailMessage message = new SimpleMailMessage();

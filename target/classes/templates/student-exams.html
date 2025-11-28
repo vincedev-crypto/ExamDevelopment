@@ -42,8 +42,7 @@
                     <td th:text="${assignment.exam.subject.name}"></td>
                     <td th:text="${assignment.assignedAt != null ? #temporals.format(assignment.assignedAt, 'MMM d, yyyy h:mm a') : '—'}"></td>
                     <td>
-                        <span th:class="'badge ' + (${assignment.status.name() == 'ASSIGNED'} ? 'badge-medium' : 
-                                                     ${assignment.status.name() == 'COMPLETED'} ? 'badge-easy' : 'badge-hard')"
+                        <span th:class="${assignment.status.name() == 'ASSIGNED' ? 'badge badge-medium' : (assignment.status.name() == 'COMPLETED' ? 'badge badge-easy' : 'badge badge-hard')}"
                               th:text="${assignment.status}"></span>
                     </td>
                     <td th:text="${assignment.exam.questions.size()}"></td>

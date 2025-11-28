@@ -18,6 +18,10 @@
             <a href="/question/list" class="btn">View Questions</a>
         </nav>
 
+        <!-- Success/Error Messages -->
+        <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+        <div th:if="${error}" class="alert alert-error" th:text="${error}"></div>
+
         <main>
             <div class="form-card">
                 <form th:action="@{/exam/generate}" method="post">
