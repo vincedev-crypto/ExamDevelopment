@@ -6,6 +6,7 @@
     <title>Take Exam</title>
     <link rel="stylesheet" th:href="@{/css/base.css}">
     <link rel="stylesheet" th:href="@{/css/take-exam.css}">
+    <script th:src="@{/js/exam-shuffle.js}" defer></script>
 </head>
 <body>
 <div class="container">
@@ -36,8 +37,31 @@
                         </div>
                         <p class="question-content" th:text="${question.content}"></p>
                         
-                        <!-- Answer input box -->
-                        <div class="answer-input">
+                        <!-- Multiple Choice Options (Shuffled via JS) -->
+                        <div th:if="${question.optionA != null}" class="mc-options" th:data-question-id="${question.id}">
+                            <!-- We render options in a hidden list and let JS shuffle and display them -->
+                            <div class="mc-option-container">
+                                <label class="mc-option">
+                                    <input type="radio" th:name="'answer_' + ${question.id}" th:value="${question.optionA}">
+                                    <span th:text="${question.optionA}"></span>
+                                </label>
+                                <label class="mc-option">
+                                    <input type="radio" th:name="'answer_' + ${question.id}" th:value="${question.optionB}">
+                                    <span th:text="${question.optionB}"></span>
+                                </label>
+                                <label class="mc-option" th:if="${question.optionC != null}">
+                                    <input type="radio" th:name="'answer_' + ${question.id}" th:value="${question.optionC}">
+                                    <span th:text="${question.optionC}"></span>
+                                </label>
+                                <label class="mc-option" th:if="${question.optionD != null}">
+                                    <input type="radio" th:name="'answer_' + ${question.id}" th:value="${question.optionD}">
+                                    <span th:text="${question.optionD}"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Essay / Short Answer Input -->
+                        <div th:if="${question.optionA == null}" class="answer-input">
                             <label th:for="'answer-' + ${question.id}">Your Answer:</label>
                             <textarea 
                                 th:id="'answer-' + ${question.id}"
