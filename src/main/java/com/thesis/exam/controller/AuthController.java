@@ -104,16 +104,6 @@ public class AuthController {
         return "redirect:/login";
     }
     
-    @GetMapping("/student/dashboard")
-    public String studentDashboard(HttpSession session, Model model) {
-        if (session.getAttribute("userId") == null) {
-            return "redirect:/login";
-        }
-        
-        model.addAttribute("userName", session.getAttribute("userName"));
-        return "student-dashboard";
-    }
-    
     @GetMapping("/teacher/dashboard")
     public String teacherDashboard(HttpSession session, Model model) {
         if (session.getAttribute("userId") == null) {

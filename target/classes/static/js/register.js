@@ -1,4 +1,9 @@
 /* Register Page JavaScript */
+
+/**
+ * Handle role selection (Student or Teacher)
+ * @param {string} role - Either 'STUDENT' or 'TEACHER'
+ */
 function selectRole(role) {
     // Update radio buttons
     document.getElementById('studentRole').checked = (role === 'STUDENT');
@@ -13,6 +18,7 @@ function selectRole(role) {
     // Show/hide department field
     const deptGroup = document.getElementById('departmentGroup');
     const deptInput = document.getElementById('department');
+    
     if (role === 'TEACHER') {
         deptGroup.style.display = 'block';
         deptInput.required = true;
@@ -22,7 +28,10 @@ function selectRole(role) {
     }
 }
 
-// Initialize with student selected
+// Initialize with student selected on page load
 document.addEventListener('DOMContentLoaded', function() {
-    document.querySelector('.role-option').classList.add('selected');
+    const firstRoleOption = document.querySelector('.role-option');
+    if (firstRoleOption) {
+        firstRoleOption.classList.add('selected');
+    }
 });
