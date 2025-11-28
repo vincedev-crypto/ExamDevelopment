@@ -35,6 +35,18 @@
                                   th:text="${question.difficulty}"></span>
                         </div>
                         <p class="question-content" th:text="${question.content}"></p>
+                        
+                        <!-- Answer input box -->
+                        <div class="answer-input">
+                            <label th:for="'answer-' + ${question.id}">Your Answer:</label>
+                            <textarea 
+                                th:id="'answer-' + ${question.id}"
+                                th:name="'answer_' + ${question.id}" 
+                                rows="4" 
+                                placeholder="Type your answer here..."
+                                required></textarea>
+                        </div>
+                        
                         <div class="answer-section">
                             <label class="checkbox-container">
                                 <input type="checkbox" name="correctQuestionIds" th:value="${question.id}">

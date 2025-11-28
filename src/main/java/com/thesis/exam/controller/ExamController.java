@@ -13,6 +13,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.Map;
+import java.util.HashMap;
+
 @Controller
 @RequestMapping("/exam")
 public class ExamController {
@@ -147,6 +150,7 @@ public class ExamController {
     @PostMapping("/submit/{assignmentId}")
     public String submitStudentExam(@PathVariable Long assignmentId,
                                   @RequestParam(required = false) java.util.List<Long> correctQuestionIds,
+                                  @RequestParam Map<String, String> allParams,
                                   HttpSession session,
                                   Model model) {
         Long studentId = resolveStudentId(session);
@@ -157,6 +161,20 @@ public class ExamController {
         ExamAssignment assignment = examAssignmentRepository.findById(assignmentId).orElse(null);
         if (assignment == null || !assignment.getStudent().getId().equals(studentId)) {
             return "redirect:/student/results";
+        }
+        
+        // Extract student answers from form parameters
+        // Parameters come as answer_{questionId}=student's text answer
+        java.util.Map<Long, String> studentAnswers = new java.util.HashMap<>();
+        for (java.util.Map.Entry<String, String> entry : allParams.entrySet()) {
+            if (entry.getKey().startsWith("answer_")) {
+                try {
+                    Long questionId = Long.parseLong(entry.getKey().substring(7));
+                    studentAnswers.put(questionId, entry.getValue());
+                } catch (NumberFormatException e) {
+                    // Skip invalid question IDs
+                }
+            }
         }
         
         // Calculate score
@@ -175,6 +193,9 @@ public class ExamController {
         
         // Process results with algorithm
         examGenerationService.processExamResult(assignment.getExam(), correctQuestionIds);
+        
+        // Log student answers for teacher review (you can save these to database if needed)
+        System.out.println("Student answers submitted: " + studentAnswers.size() + " answers");
         
         model.addAttribute("message", "Exam submitted successfully! Score: " + String.format("%.1f", score) + "%");
         return "redirect:/student/results";

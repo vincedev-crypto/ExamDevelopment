@@ -19,5 +19,16 @@
         <a th:if="${success}" href="/login" class="btn btn-primary">Proceed to Login</a>
         <a th:unless="${success}" href="/register" class="btn btn-primary">Register Again</a>
     </div>
+    
+    <!-- Hide token from URL -->
+    <script>
+        // Remove token from URL after page loads for security
+        if (window.location.search.includes('token=')) {
+            const cleanUrl = window.location.protocol + "//" + 
+                           window.location.host + 
+                           window.location.pathname;
+            window.history.replaceState({}, document.title, cleanUrl);
+        }
+    </script>
 </body>
 </html>
