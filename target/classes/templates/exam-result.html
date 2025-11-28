@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Result</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Generated Exam</h1>
+        </header>
+
+        <nav>
+            <a href="/" class="btn">Home</a>
+            <a href="/exam/generate" class="btn">Generate Another</a>
+        </nav>
+
+        <main>
+            <div class="exam-card">
+                <div class="exam-header">
+                    <h2>Exam for <span th:text="${exam.student.name}"></span></h2>
+                    <p>Subject: <strong th:text="${exam.subject.name}"></strong></p>
+                    <p>Total Questions: <strong th:text="${#lists.size(exam.questions)}"></strong></p>
+                </div>
+
+                <!-- Assignment Section for Teachers -->
+                <div class="assignment-section">
+                    <h3>Assign this Exam to a Student</h3>
+                    <form th:action="@{/exam/assign}" method="post" style="display: flex; gap: 15px; align-items: end;">
+                        <input type="hidden" name="examId" th:value="${exam.id}" />
+                        
+                        <div class="form-group" style="margin: 0;">
+                            <label for="studentSelect">Select Student:</label>
+                            <select id="studentSelect" name="studentId" required>
+                                <option value="">Choose a student</option>
+                                <option th:each="student : ${students}" 
+                                        th:value="${student.id}" 
+                                        th:text="${student.name}"></option>
+                            </select>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary">Assign Exam</button>
+                    </form>
+                </div>
+
+                <form th:action="@{/exam/submit}" method="post" class="submit-form">
+                    <input type="hidden" name="examId" th:value="${exam.id}" />
+                    
+                    <div class="questions-container">
+                        <div th:each="question, iterStat : ${exam.questions}" class="question-item">
+                            <div class="question-header">
+                                <span class="question-number">Question [[${iterStat.count}]]</span>
+                                <span th:class="'badge badge-' + ${#strings.toLowerCase(question.difficulty)}" 
+                                      th:text="${question.difficulty}"></span>
+                            </div>
+                            <p class="question-content" th:text="${question.content}"></p>
+                            <div class="answer-section">
+                                <label class="checkbox-container">
+                                    <input type="checkbox" name="correctQuestionIds" th:value="${question.id}">
+                                    <span class="checkmark"></span>
+                                    Mark as Correctly Answered
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Submit & Process Results</button>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+    <style>
+        /* Add some styles for the checkbox */
+        .answer-section { margin-top: 10px; padding-top: 10px; border-top: 1px dashed #eee; }
+        .checkbox-container { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+        .form-actions { margin-top: 20px; text-align: center; }
+        .assignment-section { 
+            background: #e3f2fd; 
+            padding: 20px; 
+            border-radius: 8px; 
+            margin-bottom: 20px;
+            border-left: 4px solid #2196f3;
+        }
+        .assignment-section h3 {
+            color: #1976d2;
+            margin-bottom: 15px;
+        }
+    </style>
+    <script th:src="@{/js/script.js}"></script>
+</body>
+</html>

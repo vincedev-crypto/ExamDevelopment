@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Question List</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>All Questions</h1>
+        </header>
+
+        <nav>
+            <a href="/" class="btn">Home</a>
+            <a href="/question/upload" class="btn">Upload Question</a>
+        </nav>
+
+        <main>
+            <div class="table-card">
+                <table class="question-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Content</th>
+                            <th>Subject</th>
+                            <th>Difficulty</th>
+                            <th>Answer</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="question : ${questions}">
+                            <td th:text="${question.id}"></td>
+                            <td th:text="${question.content}"></td>
+                            <td th:text="${question.subject.name}"></td>
+                            <td>
+                                <span th:class="'badge badge-' + ${#strings.toLowerCase(question.difficulty)}" 
+                                      th:text="${question.difficulty}"></span>
+                            </td>
+                            <td th:text="${question.correctAnswer}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

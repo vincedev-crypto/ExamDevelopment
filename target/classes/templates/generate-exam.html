@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate Exam</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Generate Adaptive Exam</h1>
+        </header>
+
+        <nav>
+            <a href="/" class="btn">Home</a>
+            <a href="/question/list" class="btn">View Questions</a>
+        </nav>
+
+        <main>
+            <div class="form-card">
+                <form th:action="@{/exam/generate}" method="post">
+                    <div class="form-group">
+                        <label for="student">Select Student:</label>
+                        <select id="student" name="studentId" required>
+                            <option value="">Choose Student</option>
+                            <option th:each="student : ${students}" 
+                                    th:value="${student.id}" 
+                                    th:text="${student.name}"></option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="subject">Select Subject:</label>
+                        <select id="subject" name="subjectId" required>
+                            <option value="">Choose Subject</option>
+                            <option th:each="subject : ${subjects}" 
+                                    th:value="${subject.id}" 
+                                    th:text="${subject.name}"></option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="totalQuestions">Number of Questions:</label>
+                        <input type="number" id="totalQuestions" name="totalQuestions" value="20" min="5" max="50" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Generate Exam</button>
+                </form>
+
+                <div class="info-box">
+                    <h3>How It Works:</h3>
+                    <ul>
+                        <li>System checks the student's mastery level in the selected subject</li>
+                        <li>If no history exists (cold start), uses balanced difficulty distribution</li>
+                        <li>Questions are selected based on the student's proficiency</li>
+                        <li>Higher mastery = more difficult questions</li>
+                    </ul>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script th:src="@{/js/script.js}"></script>
+</body>
+</html>

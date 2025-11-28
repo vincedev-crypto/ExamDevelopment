@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adaptive Exam System</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Adaptive Exam Generation System</h1>
+            <p class="subtitle">Personalized exams based on student mastery</p>
+        </header>
+
+        <nav>
+            <a href="/" class="btn">Home</a>
+            <a href="/question/upload" class="btn">Upload Questions</a>
+            <a href="/question/list" class="btn">View Questions</a>
+            <a href="/exam/generate" class="btn btn-primary">Generate Exam</a>
+        </nav>
+
+        <main>
+            <section class="info-card">
+                <h2>How It Works</h2>
+                <div class="feature-grid">
+                    <div class="feature">
+                        <h3>📚 Question Upload</h3>
+                        <p>Teachers upload questions with difficulty levels (Easy, Medium, Hard)</p>
+                    </div>
+                    <div class="feature">
+                        <h3>🎯 Smart Algorithm</h3>
+                        <p>System analyzes student performance history per subject</p>
+                    </div>
+                    <div class="feature">
+                        <h3>📊 Adaptive Difficulty</h3>
+                        <p>Exams are tailored to each student's mastery level</p>
+                    </div>
+                    <div class="feature">
+                        <h3>📈 Continuous Learning</h3>
+                        <p>Mastery scores update based on exam results</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="info-card">
+                <h2>Difficulty Distribution</h2>
+                <table class="distribution-table">
+                    <thead>
+                        <tr>
+                            <th>Mastery Level</th>
+                            <th>Easy %</th>
+                            <th>Medium %</th>
+                            <th>Hard %</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Beginner (0-30%)</td>
+                            <td>70%</td>
+                            <td>20%</td>
+                            <td>10%</td>
+                        </tr>
+                        <tr>
+                            <td>Intermediate (30-70%)</td>
+                            <td>30%</td>
+                            <td>50%</td>
+                            <td>20%</td>
+                        </tr>
+                        <tr>
+                            <td>Advanced (70-100%)</td>
+                            <td>10%</td>
+                            <td>30%</td>
+                            <td>60%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 Adaptive Exam System - Thesis Project</p>
+        </footer>
+    </div>
+</body>
+</html>

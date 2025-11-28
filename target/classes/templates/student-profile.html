@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>Profile</h1>
+        <p>Manage your account details</p>
+    </header>
+
+    <nav>
+        <a href="/student/dashboard" class="btn">⬅ Dashboard</a>
+        <a href="/student/results" class="btn">📊 Results</a>
+        <a href="/logout" class="btn btn-danger">Logout</a>
+    </nav>
+
+    <main>
+        <div class="form-card">
+            <h2>Account Information</h2>
+            <div class="info-grid">
+                <div>
+                    <h4>Name</h4>
+                    <p th:text="${student.name}"></p>
+                </div>
+                <div>
+                    <h4>Email</h4>
+                    <p th:text="${student.email}"></p>
+                </div>
+                <div>
+                    <h4>Status</h4>
+                    <p th:text="${student.emailVerified} ? 'Verified' : 'Pending Verification'"></p>
+                </div>
+            </div>
+
+            <p style="margin-top:20px; color:#6c757d;">Profile editing and password management will be added soon. Reach out to your teacher if you need to update your information.</p>
+        </div>
+    </main>
+</div>
+
+<style>
+    .info-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+    }
+    .info-grid h4 {
+        font-size: 0.9rem;
+        color: #6c757d;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    .info-grid p {
+        font-size: 1.1rem;
+        color: #2c3e50;
+        margin-top: 5px;
+    }
+</style>
+</body>
+</html>

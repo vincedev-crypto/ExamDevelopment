@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Take Exam</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>Exam: <span th:text="${exam.subject.name}"></span></h1>
+        <p>Answer all questions and submit when complete.</p>
+    </header>
+
+    <nav>
+        <a href="/student/results" class="btn">⬅ Back to Assignments</a>
+        <a href="/logout" class="btn btn-danger">Logout</a>
+    </nav>
+
+    <main>
+        <div class="exam-card">
+            <div class="exam-header">
+                <h2>Total Questions: <span th:text="${exam.questions.size()}"></span></h2>
+                <p><strong>Instructions:</strong> Read each question carefully and mark the checkbox if you got it right.</p>
+            </div>
+
+            <form th:action="@{'/exam/submit/' + ${assignment.id}}" method="post" class="submit-form">
+                <div class="questions-container">
+                    <div th:each="question, iterStat : ${exam.questions}" class="question-item">
+                        <div class="question-header">
+                            <span class="question-number">Question [[${iterStat.count}]]</span>
+                            <span th:class="'badge badge-' + ${#strings.toLowerCase(question.difficulty)}" 
+                                  th:text="${question.difficulty}"></span>
+                        </div>
+                        <p class="question-content" th:text="${question.content}"></p>
+                        <div class="answer-section">
+                            <label class="checkbox-container">
+                                <input type="checkbox" name="correctQuestionIds" th:value="${question.id}">
+                                <span class="checkmark"></span>
+                                I answered this question correctly
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary" onclick="return confirm('Are you sure you want to submit this exam? You cannot change your answers after submission.');">
+                        Submit Exam
+                    </button>
+                </div>
+            </form>
+        </div>
+    </main>
+</div>
+
+<style>
+    .answer-section { 
+        margin-top: 15px; 
+        padding-top: 15px; 
+        border-top: 1px dashed #ddd; 
+        background: #f8f9fa;
+        padding: 15px;
+        border-radius: 5px;
+    }
+    .checkbox-container { 
+        display: flex; 
+        align-items: center; 
+        gap: 10px; 
+        cursor: pointer;
+        font-weight: 500;
+        color: #495057;
+    }
+    .form-actions { 
+        margin-top: 30px; 
+        text-align: center; 
+        padding: 20px;
+        background: #e3f2fd;
+        border-radius: 8px;
+    }
+    .question-item {
+        margin-bottom: 25px;
+    }
+</style>
+</body>
+</html>

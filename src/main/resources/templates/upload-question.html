@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Question</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Upload Question</h1>
+        </header>
+
+        <nav>
+            <a href="/" class="btn">Home</a>
+            <a href="/question/list" class="btn">View Questions</a>
+        </nav>
+
+        <main>
+            <div class="form-card">
+                <div th:if="${message}" class="success-message" th:text="${message}"></div>
+                <div th:if="${error}" class="error-message" th:text="${error}"></div>
+
+                <h2>Bulk Upload (CSV)</h2>
+                <p>Format: <code>Content, Difficulty, Subject, CorrectAnswer</code></p>
+
+                <div class="info-box">
+                    <h3>Need an example?</h3>
+                    <p>Download a ready-made 50-item question bank for IT students.</p>
+                    <a href="/question/download-sample" class="btn btn-primary" download>Download Sample CSV</a>
+                    <p style="margin-top:10px; font-size:0.9em; color:#555;">Tip: If you edited the file in Excel, choose <strong>CSV UTF-8 (Comma delimited)</strong> when saving.</p>
+                </div>
+
+                <form th:action="@{/question/upload-file}" method="post" enctype="multipart/form-data" style="margin-top:20px;">
+                    <div class="form-group">
+                        <label for="file">Select CSV File:</label>
+                        <input type="file" id="file" name="file" accept=".csv" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Upload CSV</button>
+                </form>
+            </div>
+        </main>
+    </div>
+    <script th:src="@{/js/script.js}"></script>
+</body>
+</html>

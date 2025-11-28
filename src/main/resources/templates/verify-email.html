@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Verification</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        .auth-container {
+            max-width: 500px;
+            margin: 100px auto;
+            padding: 40px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .success-icon {
+            font-size: 64px;
+            color: #27ae60;
+            margin-bottom: 20px;
+        }
+        .error-icon {
+            font-size: 64px;
+            color: #e74c3c;
+            margin-bottom: 20px;
+        }
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+        .message {
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <div th:if="${success}" class="success-icon">✓</div>
+        <div th:unless="${success}" class="error-icon">✗</div>
+        
+        <h1 th:text="${success} ? 'Email Verified!' : 'Verification Failed'"></h1>
+        
+        <p class="message" th:text="${message}"></p>
+        
+        <a th:if="${success}" href="/login" class="btn btn-primary">Proceed to Login</a>
+        <a th:unless="${success}" href="/register" class="btn btn-primary">Register Again</a>
+    </div>
+</body>
+</html>

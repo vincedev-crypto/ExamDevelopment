@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Adaptive Exam System</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        .auth-container {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .auth-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .auth-header h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        .auth-header p {
+            color: #7f8c8d;
+        }
+        .error-message {
+            background: #fee;
+            color: #c33;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+        .role-selector {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .role-option {
+            flex: 1;
+            padding: 20px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        .role-option:hover {
+            border-color: #3498db;
+            background: #f8f9fa;
+        }
+        .role-option input[type="radio"] {
+            display: none;
+        }
+        .role-option input[type="radio"]:checked + label {
+            color: #3498db;
+            font-weight: bold;
+        }
+        .role-option.selected {
+            border-color: #3498db;
+            background: #e3f2fd;
+        }
+        #departmentGroup {
+            display: none;
+        }
+        .auth-footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #7f8c8d;
+        }
+        .auth-footer a {
+            color: #3498db;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-header">
+            <h1>🎓 Create Account</h1>
+            <p>Register as a student or teacher</p>
+        </div>
+
+        <div th:if="${error}" class="error-message" th:text="${error}"></div>
+
+        <form th:action="@{/register}" method="post">
+            <!-- Role Selection -->
+            <div class="role-selector">
+                <div class="role-option" onclick="selectRole('STUDENT')">
+                    <input type="radio" id="studentRole" name="role" value="STUDENT" checked>
+                    <label for="studentRole">
+                        <h3>👨‍🎓 Student</h3>
+                        <p>Take exams and view results</p>
+                    </label>
+                </div>
+                <div class="role-option" onclick="selectRole('TEACHER')">
+                    <input type="radio" id="teacherRole" name="role" value="TEACHER">
+                    <label for="teacherRole">
+                        <h3>👨‍🏫 Teacher</h3>
+                        <p>Create and manage exams</p>
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="name">Full Name:</label>
+                <input type="text" id="name" name="name" required 
+                       placeholder="Enter your full name">
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address:</label>
+                <input type="email" id="email" name="email" required 
+                       placeholder="Enter your email">
+            </div>
+
+            <div class="form-group" id="departmentGroup">
+                <label for="department">Department:</label>
+                <input type="text" id="department" name="department" 
+                       placeholder="e.g., Computer Science">
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required 
+                       placeholder="Create a password" minlength="6">
+            </div>
+
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password:</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" required 
+                       placeholder="Re-enter password">
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%;">
+                Register
+            </button>
+        </form>
+
+        <div class="auth-footer">
+            <p>Already have an account? <a href="/login">Login here</a></p>
+        </div>
+    </div>
+
+    <script>
+        function selectRole(role) {
+            // Update radio buttons
+            document.getElementById('studentRole').checked = (role === 'STUDENT');
+            document.getElementById('teacherRole').checked = (role === 'TEACHER');
+            
+            // Update visual selection
+            document.querySelectorAll('.role-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            event.currentTarget.classList.add('selected');
+            
+            // Show/hide department field
+            const deptGroup = document.getElementById('departmentGroup');
+            const deptInput = document.getElementById('department');
+            if (role === 'TEACHER') {
+                deptGroup.style.display = 'block';
+                deptInput.required = true;
+            } else {
+                deptGroup.style.display = 'none';
+                deptInput.required = false;
+            }
+        }
+        
+        // Initialize with student selected
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelector('.role-option').classList.add('selected');
+        });
+    </script>
+</body>
+</html>

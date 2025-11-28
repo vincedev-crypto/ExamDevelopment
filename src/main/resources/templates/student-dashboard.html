@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Student Dashboard</h1>
+            <p>Welcome, <span th:text="${userName}"></span>!</p>
+        </header>
+
+        <nav>
+            <a href="/student/results" class="btn">📝 Assigned Exams</a>
+            <a href="/student/analytics" class="btn">📊 View Performance</a>
+            <a href="/logout" class="btn btn-danger">🚪 Logout</a>
+        </nav>
+
+        <main>
+            <div class="dashboard-cards">
+                <div class="card">
+                    <h3>My Exams</h3>
+                    <p>View and take your assigned exams</p>
+                    <a href="/student/results" class="btn btn-primary">View Assigned Exams</a>
+                </div>
+                
+                <div class="card">
+                    <h3>Performance</h3>
+                    <p>Track your progress and scores</p>
+                    <a href="/student/analytics" class="btn btn-primary">View Analytics</a>
+                </div>
+                
+                <div class="card">
+                    <h3>Profile</h3>
+                    <p>Update your information</p>
+                    <a href="/student/profile" class="btn btn-primary">Edit Profile</a>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

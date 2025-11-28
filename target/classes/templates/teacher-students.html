@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Students</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>Students</h1>
+        <p>Overview of all registered students</p>
+    </header>
+
+    <nav>
+        <a href="/teacher/dashboard" class="btn">⬅ Dashboard</a>
+        <a href="/teacher/analytics" class="btn">📈 Analytics</a>
+        <a href="/logout" class="btn btn-danger">Logout</a>
+    </nav>
+
+    <main>
+        <div class="table-card">
+            <table class="question-table">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Verified</th>
+                    <th>Exams Taken</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${#lists.isEmpty(students)}">
+                    <td colspan="4" style="text-align:center;">No students registered yet.</td>
+                </tr>
+                <tr th:each="student : ${students}">
+                    <td th:text="${student.name}"></td>
+                    <td th:text="${student.email}"></td>
+                    <td>
+                        <span th:class="${student.emailVerified} ? 'badge badge-easy' : 'badge badge-hard'"
+                              th:text="${student.emailVerified} ? 'Verified' : 'Pending'"></span>
+                    </td>
+                    <td th:text="${examsPerStudent[student.id] != null ? examsPerStudent[student.id] : 0}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+</div>
+</body>
+</html>

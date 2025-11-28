@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Analytics</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>Analytics Overview</h1>
+        <p>Department: <span th:text="${department}"></span></p>
+    </header>
+
+    <nav>
+        <a href="/teacher/dashboard" class="btn">⬅ Dashboard</a>
+        <a href="/question/upload" class="btn">Upload Questions</a>
+        <a href="/logout" class="btn btn-danger">Logout</a>
+    </nav>
+
+    <main>
+        <div class="dashboard-cards">
+            <div class="card">
+                <h3>Total Students</h3>
+                <p class="stat-value" th:text="${totalStudents}">0</p>
+            </div>
+            <div class="card">
+                <h3>Total Exams Generated</h3>
+                <p class="stat-value" th:text="${totalExams}">0</p>
+            </div>
+            <div class="card">
+                <h3>Average Score</h3>
+                <p class="stat-value" th:text="${#numbers.formatDecimal(averageScore, 1, 2)} + '%'">0%</p>
+            </div>
+        </div>
+
+        <div class="table-card" style="margin-top:30px;">
+            <h2>Subject Performance</h2>
+            <table class="question-table">
+                <thead>
+                <tr>
+                    <th>Subject</th>
+                    <th>Average Score</th>
+                    <th>Exams Count</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${#maps.isEmpty(subjectStats)}">
+                    <td colspan="3" style="text-align:center;">No exams have been recorded yet.</td>
+                </tr>
+                <tr th:each="entry : ${subjectStats}">
+                    <td th:text="${entry.key}"></td>
+                    <td th:text="${#numbers.formatDecimal(entry.value.average, 1, 2)} + '%' "></td>
+                    <td th:text="${entry.value.count}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+</div>
+
+<style>
+    .stat-value {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #667eea;
+    }
+</style>
+</body>
+</html>
