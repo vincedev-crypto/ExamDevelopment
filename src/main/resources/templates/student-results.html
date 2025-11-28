@@ -10,13 +10,14 @@
 <body>
 <div class="container">
     <header>
-        <h1>Assigned Exams</h1>
-        <p>Hi, <span th:text="${userName}"></span>! Here are your assigned exams.</p>
+        <h1>My Exam Results</h1>
+        <p>Hi, <span th:text="${userName}"></span>! Here are your completed exam results.</p>
     </header>
 
     <nav>
         <a href="/student/dashboard" class="btn">⬅ Dashboard</a>
-        <a href="/student/analytics" class="btn">� Analytics</a>
+        <a href="/student/exams" class="btn">📝 Assigned Exams</a>
+        <a href="/student/analytics" class="btn">📊 Analytics</a>
         <a href="/logout" class="btn btn-danger">Logout</a>
     </nav>
 
@@ -27,32 +28,29 @@
                 <tr>
                     <th>#</th>
                     <th>Subject</th>
-                    <th>Assigned Date</th>
-                    <th>Status</th>
+                    <th>Completed Date</th>
+                    <th>Score</th>
                     <th>Questions</th>
                     <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:if="${#lists.isEmpty(assignments)}">
-                    <td colspan="6" style="text-align:center;">No exams assigned to you yet.</td>
+                <tr th:if="${#lists.isEmpty(completedAssignments)}">
+                    <td colspan="6" style="text-align:center;">No completed exams yet.</td>
                 </tr>
-                <tr th:each="assignment, iter : ${assignments}">
+                <tr th:each="assignment, iter : ${completedAssignments}">
                     <td th:text="${iter.count}"></td>
                     <td th:text="${assignment.exam.subject.name}"></td>
-                    <td th:text="${assignment.assignedAt != null ? #temporals.format(assignment.assignedAt, 'MMM d, yyyy h:mm a') : '—'}"></td>
+                    <td th:text="${assignment.completedAt != null ? #temporals.format(assignment.completedAt, 'MMM d, yyyy h:mm a') : '—'}"></td>
                     <td>
-                        <span th:class="'badge ' + (${assignment.status.name() == 'ASSIGNED'} ? 'badge-medium' : 
-                                                     ${assignment.status.name() == 'COMPLETED'} ? 'badge-easy' : 'badge-hard')"
-                              th:text="${assignment.status}"></span>
+                        <span th:class="'badge ' + (${assignment.score >= 90} ? 'badge-easy' : 
+                                                     ${assignment.score >= 75} ? 'badge-medium' : 'badge-hard')"
+                              th:text="${assignment.score != null ? assignment.score + '%' : '—'}"></span>
                     </td>
                     <td th:text="${assignment.exam.questions.size()}"></td>
                     <td>
-                        <a th:if="${assignment.status.name() == 'ASSIGNED'}" 
-                           th:href="@{'/exam/take/' + ${assignment.id}}" 
-                           class="btn btn-primary btn-sm">Take Exam</a>
-                        <span th:if="${assignment.status.name() != 'ASSIGNED'}" 
-                              class="btn btn-secondary btn-sm disabled">Completed</span>
+                        <a th:href="@{'/exam/review/' + ${assignment.id}}" 
+                           class="btn btn-secondary btn-sm">View Details</a>
                     </td>
                 </tr>
                 </tbody>

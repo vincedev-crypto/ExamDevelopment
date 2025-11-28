@@ -5,6 +5,7 @@ import com.thesis.exam.model.Teacher;
 import com.thesis.exam.model.UserRole;
 import com.thesis.exam.repository.StudentRepository;
 import com.thesis.exam.repository.TeacherRepository;
+import com.thesis.exam.util.TokenEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -106,7 +107,7 @@ public class AuthService {
         student.setIsActive(true);
         student.setEmailVerified(false);
         student.setVerificationToken(token);
-        student.setTokenExpiryDate(LocalDateTime.now().plusHours(24));
+        student.setTokenExpiryDate(LocalDateTime.now().plusMinutes(10));
         
         studentRepository.save(student);
         
@@ -146,7 +147,7 @@ public class AuthService {
         teacher.setIsActive(true);
         teacher.setEmailVerified(false);
         teacher.setVerificationToken(token);
-        teacher.setTokenExpiryDate(LocalDateTime.now().plusHours(24));
+        teacher.setTokenExpiryDate(LocalDateTime.now().plusMinutes(10));
         
         teacherRepository.save(teacher);
         
@@ -163,8 +164,18 @@ public class AuthService {
     /**
      * Verify email using token
      */
-    public Map<String, Object> verifyEmail(String token) {
+    public Map<String, Object> verifyEmail(String encryptedToken) {
         Map<String, Object> result = new HashMap<>();
+        
+        // Decrypt the token first
+        String token;
+        try {
+            token = TokenEncryptor.decrypt(encryptedToken);
+        } catch (Exception e) {
+            result.put("success", false);
+            result.put("message", "Invalid verification link.");
+            return result;
+        }
         
         // Check student
         Student student = studentRepository.findAll().stream()

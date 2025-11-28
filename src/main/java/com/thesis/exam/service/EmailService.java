@@ -1,5 +1,6 @@
 package com.thesis.exam.service;
 
+import com.thesis.exam.util.TokenEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -21,13 +22,15 @@ public class EmailService {
             message.setTo(toEmail);
             message.setSubject("Verify Your Email - Adaptive Exam System");
             
-            String verificationLink = "http://localhost:8080/verify?token=" + verificationToken;
+            // Encrypt the token before including it in the URL
+            String encryptedToken = TokenEncryptor.encrypt(verificationToken);
+            String verificationLink = "http://localhost:8080/verify?token=" + encryptedToken;
             
             String emailBody = "Dear " + userName + ",\n\n" +
                     "Thank you for registering with the Adaptive Exam System!\n\n" +
                     "Please click the link below to verify your email address:\n" +
                     verificationLink + "\n\n" +
-                    "This link will expire in 24 hours.\n\n" +
+                    "This link will expire in 10 minutes.\n\n" +
                     "If you did not register for this account, please ignore this email.\n\n" +
                     "Best regards,\n" +
                     "Adaptive Exam System Team";

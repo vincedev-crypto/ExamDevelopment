@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Exam Results</title>
+    <link rel="stylesheet" th:href="@{/css/base.css}">
+    <link rel="stylesheet" th:href="@{/css/student-results.css}">
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>Assigned Exams</h1>
+        <p>Hi, <span th:text="${userName}"></span>! Here are your assigned exams.</p>
+    </header>
+
+    <nav>
+        <a href="/student/dashboard" class="btn">⬅ Dashboard</a>
+        <a href="/student/analytics" class="btn">� Analytics</a>
+        <a href="/logout" class="btn btn-danger">Logout</a>
+    </nav>
+
+    <main>
+        <div class="table-card">
+            <table class="question-table">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Subject</th>
+                    <th>Assigned Date</th>
+                    <th>Status</th>
+                    <th>Questions</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${#lists.isEmpty(assignments)}">
+                    <td colspan="6" style="text-align:center;">No exams assigned to you yet.</td>
+                </tr>
+                <tr th:each="assignment, iter : ${assignments}">
+                    <td th:text="${iter.count}"></td>
+                    <td th:text="${assignment.exam.subject.name}"></td>
+                    <td th:text="${assignment.assignedAt != null ? #temporals.format(assignment.assignedAt, 'MMM d, yyyy h:mm a') : '—'}"></td>
+                    <td>
+                        <span th:class="'badge ' + (${assignment.status.name() == 'ASSIGNED'} ? 'badge-medium' : 
+                                                     ${assignment.status.name() == 'COMPLETED'} ? 'badge-easy' : 'badge-hard')"
+                              th:text="${assignment.status}"></span>
+                    </td>
+                    <td th:text="${assignment.exam.questions.size()}"></td>
+                    <td>
+                        <a th:if="${assignment.status.name() == 'ASSIGNED'}" 
+                           th:href="@{'/exam/take/' + ${assignment.id}}" 
+                           class="btn btn-primary btn-sm">Take Exam</a>
+                        <span th:if="${assignment.status.name() != 'ASSIGNED'}" 
+                              class="btn btn-secondary btn-sm disabled">Completed</span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+</div>
+</body>
+</html>

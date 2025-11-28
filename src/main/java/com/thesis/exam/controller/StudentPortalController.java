@@ -51,6 +51,29 @@ public class StudentPortalController {
         return "student-dashboard";
     }
 
+    @GetMapping("/exams")
+    public String viewAssignedExams(HttpSession session, Model model) {
+        Long studentId = resolveStudentId(session);
+        if (studentId == null) {
+            return "redirect:/login";
+        }
+
+        addCommonAttributes(session, model);
+        Student student = studentRepository.findById(studentId).orElse(null);
+        if (student != null) {
+            // Get all assigned exams (both pending and completed)
+            List<ExamAssignment> assignments = examAssignmentRepository.findByStudentOrderByAssignedAtDesc(student);
+            // Filter out any assignments with null exam or subject to prevent errors
+            assignments = assignments.stream()
+                    .filter(a -> a.getExam() != null && a.getExam().getSubject() != null)
+                    .toList();
+            model.addAttribute("assignments", assignments);
+        } else {
+            model.addAttribute("assignments", Collections.emptyList());
+        }
+        return "student-exams";
+    }
+
     @GetMapping("/results")
     public String viewResults(HttpSession session, Model model) {
         Long studentId = resolveStudentId(session);
@@ -61,10 +84,15 @@ public class StudentPortalController {
         addCommonAttributes(session, model);
         Student student = studentRepository.findById(studentId).orElse(null);
         if (student != null) {
-            List<ExamAssignment> assignments = examAssignmentRepository.findByStudentOrderByAssignedAtDesc(student);
-            model.addAttribute("assignments", assignments);
+            // Get only completed exams with scores
+            List<ExamAssignment> completedAssignments = examAssignmentRepository.findByStudentOrderByAssignedAtDesc(student)
+                    .stream()
+                    .filter(a -> a.getStatus() == ExamStatus.COMPLETED && a.getScore() != null)
+                    .filter(a -> a.getExam() != null && a.getExam().getSubject() != null)
+                    .toList();
+            model.addAttribute("completedAssignments", completedAssignments);
         } else {
-            model.addAttribute("assignments", Collections.emptyList());
+            model.addAttribute("completedAssignments", Collections.emptyList());
         }
         return "student-results";
     }
