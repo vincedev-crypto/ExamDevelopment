@@ -94,6 +94,10 @@ public class DataInitializer implements CommandLineRunner {
         progQ1.setDifficulty(Difficulty.EASY);
         progQ1.setSubject(programming);
         progQ1.setCorrectAnswer("Java Virtual Machine");
+        progQ1.setOptionA("Java Virtual Machine");
+        progQ1.setOptionB("Java Visual Machine");
+        progQ1.setOptionC("Just Virtual Machine");
+        progQ1.setOptionD("Java Variable Machine");
         questionRepository.save(progQ1);
 
         Question progQ2 = new Question();
@@ -101,14 +105,34 @@ public class DataInitializer implements CommandLineRunner {
         progQ2.setDifficulty(Difficulty.MEDIUM);
         progQ2.setSubject(programming);
         progQ2.setCorrectAnswer("O(log n)");
+        progQ2.setOptionA("O(n)");
+        progQ2.setOptionB("O(log n)");
+        progQ2.setOptionC("O(n^2)");
+        progQ2.setOptionD("O(1)");
         questionRepository.save(progQ2);
-
+        
         Question progQ3 = new Question();
-        progQ3.setContent("Implement a function to detect cycle in a linked list");
-        progQ3.setDifficulty(Difficulty.HARD);
+        progQ3.setContent("What is the difference between ArrayList and LinkedList?");
+        progQ3.setDifficulty(Difficulty.MEDIUM);
         progQ3.setSubject(programming);
-        progQ3.setCorrectAnswer("Floyd's Cycle Detection Algorithm");
+        progQ3.setCorrectAnswer("ArrayList uses dynamic array, LinkedList uses doubly linked list");
+        // No options set -> Essay Question
         questionRepository.save(progQ3);
+        
+        Question progQ4 = new Question();
+        progQ4.setContent("Explain the concept of closures");
+        progQ4.setDifficulty(Difficulty.HARD);
+        progQ4.setSubject(programming);
+        progQ4.setCorrectAnswer("A closure is the combination of a function bundled together with references to its surrounding state");
+        // No options set -> Essay Question
+        questionRepository.save(progQ4);
+
+        Question progQ5 = new Question();
+        progQ5.setContent("Implement a function to detect cycle in a linked list");
+        progQ5.setDifficulty(Difficulty.HARD);
+        progQ5.setSubject(programming);
+        progQ5.setCorrectAnswer("Floyd's Cycle Detection Algorithm");
+        questionRepository.save(progQ5);
 
         // Add more questions for each subject to support 30-question exams
         addMoreMathQuestions(math);
