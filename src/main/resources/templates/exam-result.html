@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Exam Result</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/base.css}">
+    <link rel="stylesheet" th:href="@{/css/exam-result.css}">
 </head>
 <body>
     <div class="container">
@@ -73,23 +74,6 @@
             </div>
         </main>
     </div>
-    <style>
-        /* Add some styles for the checkbox */
-        .answer-section { margin-top: 10px; padding-top: 10px; border-top: 1px dashed #eee; }
-        .checkbox-container { display: flex; align-items: center; gap: 10px; cursor: pointer; }
-        .form-actions { margin-top: 20px; text-align: center; }
-        .assignment-section { 
-            background: #e3f2fd; 
-            padding: 20px; 
-            border-radius: 8px; 
-            margin-bottom: 20px;
-            border-left: 4px solid #2196f3;
-        }
-        .assignment-section h3 {
-            color: #1976d2;
-            margin-bottom: 15px;
-        }
-    </style>
     <script th:src="@{/js/script.js}"></script>
 </body>
 </html>

@@ -32,6 +32,25 @@ public class StudentPortalController {
     @Autowired
     private ExamAssignmentRepository examAssignmentRepository;
 
+    @GetMapping("/dashboard")
+    public String viewDashboard(HttpSession session, Model model) {
+        Long studentId = resolveStudentId(session);
+        if (studentId == null) {
+            return "redirect:/login";
+        }
+
+        addCommonAttributes(session, model);
+        Student student = studentRepository.findById(studentId).orElse(null);
+        if (student != null) {
+            // Get pending/assigned exams for the student to take
+            List<ExamAssignment> assignments = examAssignmentRepository.findByStudentOrderByAssignedAtDesc(student);
+            model.addAttribute("assignments", assignments);
+        } else {
+            model.addAttribute("assignments", Collections.emptyList());
+        }
+        return "student-dashboard";
+    }
+
     @GetMapping("/results")
     public String viewResults(HttpSession session, Model model) {
         Long studentId = resolveStudentId(session);

@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Profile</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/base.css}">
+    <link rel="stylesheet" th:href="@{/css/student-profile.css}">
 </head>
 <body>
 <div class="container">
@@ -20,20 +21,22 @@
     </nav>
 
     <main>
-        <div class="form-card">
-            <h2>Account Information</h2>
-            <div class="info-grid">
-                <div>
-                    <h4>Name</h4>
-                    <p th:text="${student.name}"></p>
+        <div class="profile-card">
+            <div class="profile-header">
+                <h2>Account Information</h2>
+            </div>
+            <div class="profile-info">
+                <div class="profile-field">
+                    <label>Name</label>
+                    <div class="value" th:text="${student.name}"></div>
                 </div>
-                <div>
-                    <h4>Email</h4>
-                    <p th:text="${student.email}"></p>
+                <div class="profile-field">
+                    <label>Email</label>
+                    <div class="value" th:text="${student.email}"></div>
                 </div>
-                <div>
-                    <h4>Status</h4>
-                    <p th:text="${student.emailVerified} ? 'Verified' : 'Pending Verification'"></p>
+                <div class="profile-field">
+                    <label>Status</label>
+                    <div class="value" th:text="${student.emailVerified} ? 'Verified' : 'Pending Verification'"></div>
                 </div>
             </div>
 
@@ -41,24 +44,5 @@
         </div>
     </main>
 </div>
-
-<style>
-    .info-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 20px;
-    }
-    .info-grid h4 {
-        font-size: 0.9rem;
-        color: #6c757d;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-    }
-    .info-grid p {
-        font-size: 1.1rem;
-        color: #2c3e50;
-        margin-top: 5px;
-    }
-</style>
 </body>
 </html>
