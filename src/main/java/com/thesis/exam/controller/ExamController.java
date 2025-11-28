@@ -49,6 +49,7 @@ public class ExamController {
     public String generateExam(@RequestParam Long studentId, 
                               @RequestParam Long subjectId, 
                               @RequestParam(defaultValue = "20") int totalQuestions,
+                              @RequestParam(defaultValue = "false") boolean isFixedExam,
                               Model model,
                               HttpSession session) {
         if (!isTeacher(session)) {
@@ -57,7 +58,7 @@ public class ExamController {
         Student student = studentService.getStudent(studentId);
         Subject subject = subjectService.getSubject(subjectId);
         
-        Exam exam = examGenerationService.generateExam(student, subject, totalQuestions);
+        Exam exam = examGenerationService.generateExam(student, subject, totalQuestions, isFixedExam);
         
         model.addAttribute("exam", exam);
         model.addAttribute("students", studentService.getAllStudents());

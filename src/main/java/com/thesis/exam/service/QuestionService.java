@@ -26,13 +26,27 @@ public class QuestionService {
 
     @Autowired
     private SubjectRepository subjectRepository;
+    
+    @Autowired
+    private com.thesis.exam.algorithms.VotingBasedEssayGradingAlgorithm essayGradingAlgorithm;
 
     public List<Question> getAllQuestions() {
         return questionRepository.findAll();
     }
 
     public Question saveQuestion(Question question) {
+        // Auto-calibrate difficulty if not provided (using simple heuristic or default)
+        if (question.getDifficulty() == null) {
+            question.setDifficulty(Difficulty.MEDIUM);
+        }
         return questionRepository.save(question);
+    }
+    
+    /**
+     * Grades an essay question using the Voting-Based Algorithm
+     */
+    public double gradeEssayQuestion(String studentAnswer, String referenceAnswer, List<String> keywords) {
+        return essayGradingAlgorithm.gradeEssay(studentAnswer, referenceAnswer, keywords);
     }
 
     public void saveQuestionsFromCsv(MultipartFile file) throws IOException {

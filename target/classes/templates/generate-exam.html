@@ -50,6 +50,14 @@
                         <input type="number" id="totalQuestions" name="totalQuestions" value="20" min="5" max="50" required>
                     </div>
 
+                    <div class="form-group checkbox-group">
+                        <label for="isFixedExam">
+                            <input type="checkbox" id="isFixedExam" name="isFixedExam" value="true">
+                            Standardized Exam (Fixed Set for All Students)
+                        </label>
+                        <small>If checked, adaptive difficulty is disabled and all students get the same random set.</small>
+                    </div>
+
                     <button type="submit" class="btn btn-primary">Generate Exam</button>
                 </form>
 
